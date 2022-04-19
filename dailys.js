@@ -19,4 +19,4 @@ app.use(express.static("public"));
 app.use('/', require('./routes/user'));
 
 
-app.listen(1700, () => console.log("Server runnig on port 1700"));
+app.listen(process.env.PORT || 1700, () => console.log("Server runnig on port 1700"));
