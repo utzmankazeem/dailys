@@ -17,7 +17,7 @@ run npm install to install all dependencies
 
 # npm start
 
-npm start to run app
+run npm start to launch app
 
 #Nodejs 
 #Ejs 
