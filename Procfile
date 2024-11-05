@@ -1,0 +1,1 @@
+web: node dailys.js

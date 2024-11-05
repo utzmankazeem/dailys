@@ -1,0 +1,10 @@
+<%- include("partials/headerId") -%>
+
+    <h2><%-post.title %></h2>
+    <p><%-post.post %></p>
+
+  
+        <a class="btn btn-secondary" name="button" href="/edit/<%- post._id %>">Edit Post</a> </button> 
+        <a a class="btn btn-secondary" name="button"  href="/delete/<%- post._id %>">Delete Post</a>
+   
+<%- include("partials/footer") -%>

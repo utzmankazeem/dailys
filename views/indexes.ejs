@@ -1,0 +1,14 @@
+<%- include("partials/header") -%>
+		
+<% daily.map(dais => { %>
+	<h1><%- dais.title %>	</h1>
+	<p>
+		<%- dais.post.substring(0, 20) + " ..." %> 
+		<a  href="/posts/<%- dais._id %>">read more</a>
+	</p>
+
+	<% }) %>
+	
+	<a a class="btn btn-secondary" name="button" href="/">Next</a>
+
+	<%- include("partials/footer") -%>

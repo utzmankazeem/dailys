@@ -1,0 +1,15 @@
+<%- include("partials/headerId") -%>
+
+<form action="/edit/<%-edit._id%>" method="post">
+    <h1>Edit Post</h1>
+    <div class="form-group">
+    <label> Title </label>
+        <input class="form-control" type="text" name="title" value="<%-edit['title'] %>">
+    <br>
+    <label>Post</label> <br>
+        <textarea class="form-control" name="post" cols="30" rows="5"><%-edit['post'] %></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" name="button">Publish</button>
+</form>
+
+<%- include("partials/footer") -%>
