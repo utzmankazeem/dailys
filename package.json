@@ -9,8 +9,8 @@
     "start": "node dailys",
     "dev": "nodemon dailys"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["blog", "news", "dailys"],
+  "author": "Kazeem Usman",
   "license": "ISC",
   "engines": {
     "node": "18.17.1"

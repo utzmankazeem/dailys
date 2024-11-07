@@ -13,7 +13,7 @@ export const getAllPost = async (req, res) => {
     })
     try {
         const page = req.query.page || 0;
-        const postperpage = 3;
+        const postperpage = 10;
         ///({name: {$regex: this.search, $options:"i"}})
         const found = await Blog.find({})
             .sort({ title: 1 })
@@ -44,7 +44,7 @@ export const getNewPost = (req, res) => {
 export const createNewPost = async (req, res) => {
     try {
         const { title, post } = req.body;
-        const newpost = await Blog.create(
+        newpost = await Blog.create(
             {title, post}
         )
         res.redirect("/");
