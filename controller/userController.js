@@ -44,7 +44,7 @@ export const getNewPost = (req, res) => {
 export const createNewPost = async (req, res) => {
     try {
         const { title, post } = req.body;
-        newpost = await Blog.create(
+        await Blog.create(
             {title, post}
         )
         res.redirect("/");
