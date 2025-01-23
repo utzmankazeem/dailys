@@ -14,7 +14,7 @@ users can create new post by hitting the compose button, Post created can be vie
 run npm install to install all dependencies
 
 ```ts
-    refactored code to use : ES6
+    refactored code to use : ES7+
     change functions to: async/await
     proper usage of: try/catch in functions
     refactored require statements into import

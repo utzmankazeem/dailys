@@ -1,4 +1,7 @@
 import Blog from '../models/blog.js'
+import mongoose from 'mongoose';
+import pkg from 'lodash';
+const { isEmpty } = pkg;
 import lodash from "lodash"
 const { isNull } = lodash;
 import _ from "lodash";
@@ -6,11 +9,12 @@ import _ from "lodash";
 const aboutContent = "Welcome to Dailys Today. giving you insite into the best in blog business daily";
 const contactContent = "Welcome to Dailys Today call us on +234 9099 876 8765 or you’re on your own";
 
+const firstPost = new Blog({
+    title: "New Day",
+    post: "We did a great job!",
+})
+
 export const getAllPost = async (req, res) => {
-    const firstPost = new Blog({
-        title: "New Day",
-        post: "We did a great job!",
-    })
     try {
         const page = req.query.page || 0;
         const postperpage = 10;
@@ -20,26 +24,26 @@ export const getAllPost = async (req, res) => {
             .skip(page * postperpage)
             .limit(postperpage)
         // if (isNull(found)) {
-        if (!found) {
-            const newPost = await Blog.create({firstPost})
+        if (isEmpty(found)) {
+            const newPost = await Blog.create(firstPost)
             console.log("First post added successfully")
-            res.redirect("/", {daily: newPost});
+            return res.redirect("/");
         }
         if(found){
-            res.render("indexes", { daily: found })
+            return res.render("indexes", { daily: found })
         }
     } catch (error) {
         throw error
     }
 }
 export const aboutPage = (req, res) => {
-    res.render("about", { about: aboutContent })
+    return res.render("about", { about: aboutContent })
 }
 export const contactPage = (req, res) => {
-    res.render("contact", { contact: contactContent })
+    return res.render("contact", { contact: contactContent })
 }
 export const getNewPost = (req, res) => {
-    res.render("compose");
+    return res.render("compose");
 }
 export const createNewPost = async (req, res) => {
     try {
@@ -47,19 +51,23 @@ export const createNewPost = async (req, res) => {
         await Blog.create(
             {title, post}
         )
-        res.redirect("/");
+        return res.redirect("/");
     } catch (error) {
         throw error
     }
 }
 export const getPostById = async (req, res) => {
+    const requestPostId = req.params.postId;
     try {
-        const requestPostId = req.params.postId;
-        const postFound = await Blog.findOne({ _id: requestPostId })
+        if (!mongoose.Types.ObjectId.isValid(requestPostId)) {
+            return res.redirect("/");
+          }
+
+        const postFound = await Blog.findById({_id:requestPostId});
         if (postFound instanceof Error) {
-            res.redirect('/')
+            return res.redirect('/')
         }
-        res.render("post", { post: postFound })
+        return res.render("post", { post: postFound })
     } catch (error) {
         throw(error)
     }
@@ -69,7 +77,7 @@ export const editPostPage = async (req, res) => {
         const editPost = req.params.edit;
         const postEdit = await Blog.findOne({ _id: editPost })
         if (postEdit instanceof Error) {
-            res.redirect('/')
+            return res.redirect('/')
         }
         res.render("edit", { edit: postEdit })
     } catch (error) {
@@ -84,7 +92,7 @@ export const PostEdit = async (req, res) => {
             { $set: req.body }
         )
         if (postEdit instanceof Error) {
-            res.render("edit", { edit: postEdit }, Error)
+            return res.render("edit", { edit: postEdit }, Error)
         }
         res.redirect("/")
     } catch (error) {
@@ -93,14 +101,18 @@ export const PostEdit = async (req, res) => {
 }
 
 export const deletePost = async (req, res) => {
+    const deleteId = req.params.id;
+    const deletePost = await Blog.deleteOne({deleteId})
+
     try {
-        const deleteId = req.params.id;
-        const deletePost = await Blog.deleteOne({ _id: deleteId })
+        if (deletePost.title === firstPost.title && deletePost.post === firstPost.post) {
+            return render("edit",{ edit: deletePost}, "Cannot delete the first post");
+        }
         if (deletePost instanceof Error) {
-            res.render("edit", { edit: deletePost }, Error)
+            return res.render("edit", { edit: deletePost }, Error)
         }
         res.redirect("/");
     } catch (error) {
-        return(error)
+        throw error
     }
 }
