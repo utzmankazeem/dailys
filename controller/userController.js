@@ -9,10 +9,10 @@ import _ from "lodash";
 const aboutContent = "Welcome to Dailys Today. giving you insite into the best in blog business daily";
 const contactContent = "Welcome to Dailys Today call us on +234 9099 876 8765 or you’re on your own";
 
-const firstPost = new Blog({
+const firstPost = {
     title: "New Day",
     post: "We did a great job!",
-})
+}
 
 export const getAllPost = async (req, res) => {
     try {
@@ -23,15 +23,12 @@ export const getAllPost = async (req, res) => {
             .sort({ title: 1 })
             .skip(page * postperpage)
             .limit(postperpage)
-        // if (isNull(found)) {
         if (isEmpty(found)) {
-            const newPost = await Blog.create(firstPost)
+            await Blog.create(firstPost)
             console.log("First post added successfully")
             return res.redirect("/");
         }
-        if(found){
-            return res.render("indexes", { daily: found })
-        }
+        return res.render("indexes", { daily: found })
     } catch (error) {
         throw error
     }
