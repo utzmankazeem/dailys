@@ -16,19 +16,26 @@ const firstPost = {
 
 export const getAllPost = async (req, res) => {
     try {
-        const page = req.query.page || 0;
-        const postperpage = 10;
-        ///({name: {$regex: this.search, $options:"i"}})
-        const found = await Blog.find({})
-            .sort({ title: 1 })
-            .skip(page * postperpage)
-            .limit(postperpage)
-        if (isEmpty(found)) {
+        const page = parseInt(req.query.page) || 1;
+        const limit = 5; // Number of posts per page
+        const skip = (page - 1) * limit;
+
+        const posts = await Blog.find()
+        .skip(skip)
+        .limit(limit)
+        .sort({ createdAt: -1 });
+        const totalPosts = await Blog.countDocuments();
+
+        if (isEmpty(posts)) {
             await Blog.create(firstPost)
             console.log("First post added successfully")
             return res.redirect("/");
         }
-        return res.render("indexes", { daily: found })
+        res.render('indexes', {
+            daily: posts,
+            currentPage: page,
+            totalPages: Math.ceil(totalPosts / limit)
+        });
     } catch (error) {
         throw error
     }

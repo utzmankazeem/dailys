@@ -1,14 +1,30 @@
-<%- include("partials/header") -%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts</title>
+</head>
+<body>
+    <%- include("partials/header") -%>
 		
-<% daily.map(dais => { %>
-	<h1><%- dais.title %>	</h1>
-	<p>
-		<%- dais.post.substring(0, 20) + " ..." %> 
-		<a  href="/posts/<%- dais._id %>">read more</a>
-	</p>
+    <div>
+        <% daily.map(dais => { %>
+            <h2><%= dais.title %></h2>
+            <p><%= dais.post.substring(0, 20) + " ..." %> 
+				<a  href="/posts/<%- dais._id %>">read more</a></p>
+        <% }) %>
+    </div>
 
-	<% }) %>
-	
-	<a a class="btn btn-secondary" name="button" href="/">Next</a>
+    <div>
+        <% if (currentPage > 1) { %>
+            <a class="btn btn-secondary" href="/?page=<%= currentPage - 1 %>">Previous</a>
+        <% } %>
+        <% if (currentPage < totalPages) { %>
+            <a class="btn btn-secondary" href="/?page=<%= currentPage + 1 %>">Next</a>
+        <% } %>
+    </div>
 
-	<%- include("partials/footer") -%>
+    <%- include("partials/footer") -%>
+</body>
+</html>
