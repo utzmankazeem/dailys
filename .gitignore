@@ -1,3 +1,4 @@
-node-modules
+/node-modules
 config
 public/bootstrap-5.0.2-dist
+.env

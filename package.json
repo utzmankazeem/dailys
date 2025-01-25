@@ -9,13 +9,18 @@
     "start": "node dailys",
     "dev": "nodemon dailys"
   },
-  "keywords": ["blog", "news", "dailys"],
+  "keywords": [
+    "blog",
+    "news",
+    "dailys"
+  ],
   "author": "Kazeem Usman",
   "license": "ISC",
   "engines": {
     "node": "18.17.1"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "lodash": "^4.17.21",
